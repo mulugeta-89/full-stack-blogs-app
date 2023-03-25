@@ -9,7 +9,8 @@ import axios from 'axios'
 
 const Single = () => {
   const [post, setPost] = useState({});
-  const { currentUser} = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext)
+  var [body, setBody] = useState("")
 
   const locat = useLocation();
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Single = () => {
       try {
         const res = await axios.get(`/posts/${id}`);
         setPost(res.data);
+        setBody(res.data.desc)
       } catch (err) {
         console.log(err);
       }
@@ -28,19 +30,20 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.get(`/posts/${id}`);
+      await axios.delete(`/posts/${id}`);
       navigate("/")
     } catch (err) {
       console.log(err);
     }
   };
+  body = body.slice(0, 500);
 
  
 
   return (
     <div className="single">
       <div className="content">
-        <img src={post?.img} />
+        <img src={`../upload/${post?.image}`} alt="" />
         <div className="user">
           {post.userImg && <img src={post.userImg} />}
           <div className="info">
@@ -49,7 +52,7 @@ const Single = () => {
           </div>
           {post.username === currentUser.username && (
             <div className="edit">
-              <Link to={`/write?edit=${post.id}`} state={ post}>
+              <Link to={`/write?edit=${post.id}`} state={post}>
                 <img src={Edit} />
               </Link>
               <img onClick={handleDelete} src={Delete} />
@@ -57,9 +60,9 @@ const Single = () => {
           )}
         </div>
         <h1>{post.title}</h1>
-        <p>{post.desc}</p>
+        <p>{}</p>
       </div>
-      <Menu cat={ post.cat} />
+      <Menu cat={post.cat} />
     </div>
   );
 }

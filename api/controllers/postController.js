@@ -57,9 +57,9 @@ const deletePost = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
-    const q = "DELETE FROM posts WHERE `id` = ? AND `uid` = ?";
+    const q = "DELETE FROM posts WHERE `id` = ?";
 
-    db.query(q, [postId, userInfo.id], (err, data) => {
+    db.query(q, [postId], (err, data) => {
       if (err) return res.status(403).json("You can delete only your post!");
 
       return res.json("Post has been deleted!");
@@ -76,11 +76,10 @@ const updatePost = (req, res) => {
 
     const postId = req.params.id;
     const q =
-      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+      "UPDATE posts SET `title`=?,`desc`=?,`image`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+    const values = [req.body.title, req.body.desc, req.body.image, req.body.cat];
 
-    const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
-
-    db.query(q, [...values, postId, userInfo.id], (err, data) => {
+    db.query(q, [...values, postId, req.body.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.json("Post has been updated.");
     });

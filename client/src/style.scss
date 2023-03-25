@@ -126,20 +126,20 @@ $lightGreen : #b9e7e7;
                         flex: 1;
                         position: relative;
                         img {
-                            width: 300px;
-                            max-height: 400px;
+                            width: 350px;
+                            max-height: 800px;
                         }
-                        &::after {
-                            content: "";
-                            background-color: $lightGreen;
-                            position: absolute;
-                            top: 20px;
-                            left: -20px;
-                            height: 100%;
-                            width: 100%;
-                            z-index: -1;
+                        // &::after {
+                        //     content: "";
+                        //     background-color: $lightGreen;
+                        //     position: absolute;
+                        //     top: 20px;
+                        //     left: -20px;
+                        //     height: 100%;
+                        //     width: 100%;
+                        //     z-index: -1;
 
-                        }
+                        // }
                     }
                     .content {
                         flex: 2;
@@ -151,6 +151,7 @@ $lightGreen : #b9e7e7;
                         }
                         p {
                             font-size: 18px;
+                            text-align: justify;
                         }
                         button {
                             border: none;

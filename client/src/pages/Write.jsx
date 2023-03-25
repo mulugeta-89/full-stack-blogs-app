@@ -9,13 +9,16 @@ import { AuthContext } from '../context/authContext';
 const Write = () => {
 
   const { currentUser } = useContext(AuthContext)
-  console.log(currentUser.ID)
   const state = useLocation().state
+  console.log(state)
   const navigate = useNavigate()
-  const [value, setValue] =useState(state?.desc || "");
+  const [value, setValue] = useState(state?.desc || "");
   const [title, setTitle] = useState(state?.title || "")
+  const [img, setImage] = useState(state?.image || "")
   const [file, setFile] = useState(null)
+
   const [cat, setCat] = useState(state?.cat || "")
+  console.log(img)
 
   const uploadImage = async () => {
     try {
@@ -62,8 +65,9 @@ const Write = () => {
          ? await axios.put(`/posts/${state.id}`, {
              title,
              desc: value,
+             image: file ? imgUrl : "",
              cat,
-             img: file ? imgUrl : "",
+             id: currentUser.ID
            })
          : await axios.post(`/posts`, {
              title,
@@ -84,6 +88,7 @@ const Write = () => {
         <input
           type="text"
           placeholder="Title"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="editorContainer">
@@ -108,6 +113,7 @@ const Write = () => {
             style={{ display: "none" }}
             type="file"
             id="file"
+            name=''
             onChange={(e) => setFile(e.target.files[0])}
           />
           <label className="file" htmlFor="file">
